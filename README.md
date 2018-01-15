@@ -2,17 +2,20 @@
 is a react HOC that comes to be plugged into components and the sagas, it allows to run, cancel saga.
 # ![alt tag](http://i.imgur.com/sfbpiE8.png)
 
+# redux-saga-hoc
+is a react HOC that comes to be plugged into react components and the saga middleware saga, it allows to add the saga functions within the react component, also to start one or more saga(s) and possiblity to stop them.
+
 ### Installation
 To install the stable version:
 
 ```js
 npm install --save redux-saga-hoc
-```
+````
 This assumes you are using npm as your package manager.
 
 ### Usage
 
-#### Entry
+#### Entry.js
 This part may differ for each of you.
 ```js
 
@@ -32,13 +35,29 @@ ReactDOM.render(
 );
 
 ```
-#### RootComponent
+
+### IMPORTANT
+in your store API you must have a function called runSaga :
+```js
+
+class ConfigureStore {
+  // all store logic
+  const sagaMiddleware = createSagaMiddleware();
+  
+  Object.assign(this, reduxStore, {
+    runSaga: sagaMiddleware.run
+  });
+}
+
+```
+
+#### RootComponent.js
 
 redux-saga-hoc takes in parameter the component and a array of sagas and when the component is mounted it launches the sagas passed in parametre
 
 ```js
 import React, { Component } from 'react';
-import sagaHOC from 'redux-saga-hoc';
+import HOCsaga from 'redux-saga-hoc';
 
 import { saga1, saga2, saga3 } from './sagas';
 
@@ -57,7 +76,7 @@ class RootComponent extends Component {
     );
   }
 }
-export default sagaHOC(RootComponent, [saga1, saga2, saga3]);
+export default HOCsaga(RootComponent, [saga1, saga2, saga3]);
 
 ```
 
